@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import morgan from "morgan"
 import connectToDatabase from "../server/utils/index.js"
+import userRoutes from "./routes/user.routes.js"
 import cors from "cors"
 dotenv.config()
 
@@ -21,6 +22,11 @@ app.use(cors({
     methods:["PUT","POST","PATCH","DELETE"],
     credentials:true
 }))
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/user", userRoutes);
+
 
 app.listen(PORT,()=>{
     console.log("Listening at port",PORT)
