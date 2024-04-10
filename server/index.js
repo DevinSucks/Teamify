@@ -19,7 +19,7 @@ app.use(express.urlencoded())
 
 app.use(cors({
     origin:["http://localhost:3000","http://localhost:3001"],
-    methods:["PUT","POST","PATCH","DELETE"],
+    methods:["GET","PUT","POST","PATCH","DELETE"],
     credentials:true
 }))
 
