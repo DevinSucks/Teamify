@@ -9,6 +9,11 @@ const taskSchema = new Schema(
       default: "normal",
       enum: ["high", "medium", "normal", "low"],
     },
+    coinsAlloted: {
+        type:Number,
+        default:50,
+        enum:[100,75,50,25]
+    },
     stage: {
       type: String,
       default: "todo",
@@ -31,14 +36,6 @@ const taskSchema = new Schema(
         activity: String,
         date: { type: Date, default: new Date() },
         by: { type: Schema.Types.ObjectId, ref: "User" },
-      },
-    ],
-
-    subTasks: [
-      {
-        title: String,
-        date: Date,
-        tag: String,
       },
     ],
     assets: [String],
