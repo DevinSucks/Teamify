@@ -90,12 +90,7 @@ export const registerUser = async (req, res) => {
       const { userId} = req.user;
       const { _id } = req.body;
   
-      const id =
-        isAdmin && userId === _id
-          ? userId
-          : isAdmin && userId !== _id
-          ? _id
-          : userId;
+      const id= userId !== _id ? _id : userId;
   
       const user = await User.findById(id);
   
