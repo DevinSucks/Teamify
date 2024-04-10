@@ -33,8 +33,9 @@ const SignUp = () => {
               Manage all your task in one place!
             </span>
             <p className="flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-blue-700">
-              <span>Manage all your task</span>
-              <span>at one place</span>
+              <span className="text-slate-700">Efficiency,</span>
+              <span className="text-slate-700">Collaboration</span>
+              <span>Success</span>
             </p>
 
             <div className="cell">
