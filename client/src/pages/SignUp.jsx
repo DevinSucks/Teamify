@@ -5,7 +5,7 @@ import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
 
-const Login = () => {
+const SignUp = () => {
   const { user } = useSelector((state) => state.auth);
   const {
     register,
@@ -33,8 +33,8 @@ const Login = () => {
               Manage all your task in one place!
             </span>
             <p className="flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-blue-700">
-              <span>Cloud-Based</span>
-              <span>Task Manager</span>
+              <span>Manage all your task</span>
+              <span>at one place</span>
             </p>
 
             <div className="cell">
@@ -51,19 +51,29 @@ const Login = () => {
           >
             <div className="">
               <p className="text-blue-600 text-3xl font-bold text-center">
-                Welcome back!
+                SignUp to efficiency
               </p>
               <p className="text-center text-base text-gray-700 ">
-                Keep all your credential safge.
               </p>
             </div>
 
             <div className="flex flex-col gap-y-5">
-              <Textbox
+            <Textbox
+                placeholder="your name"
+                type="string"
+                name="Username"
+                label="Username*"
+                className="w-full rounded-full"
+                register={register("Username", {
+                  required: "Username is required!",
+                })}
+                error={errors.email ? errors.Username.message : ""}
+              />
+               <Textbox
                 placeholder="email@example.com"
                 type="email"
                 name="email"
-                label="Email Address"
+                label="Email Address*"
                 className="w-full rounded-full"
                 register={register("email", {
                   required: "Email Address is required!",
@@ -74,29 +84,46 @@ const Login = () => {
                 placeholder="your password"
                 type="password"
                 name="password"
-                label="Password"
+                label="Password*"
                 className="w-full rounded-full"
                 register={register("password", {
                   required: "Password is required!",
                 })}
                 error={errors.password ? errors.password.message : ""}
               />
-
+              
+               <Textbox
+                placeholder="your Organisation"
+                type="string"
+                name="Organisation"
+                label="Organisation"
+                className="w-full rounded-full"
+                register={register("Organisation", {
+                  required: "Organisation name is required!",
+                })}
+                error={errors.email ? errors.Organisation.message : ""}
+              />
+              <Textbox
+                placeholder="your role"
+                type="string"
+                name="position"
+                label="Position*"
+                className="w-full rounded-full"
+                register={register("position", {
+                  required: "Position is required!",
+                })}
+                error={errors.email ? errors.position.message : ""}
+              />
+              
               <span className="text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer">
-                Forget Password?
+                Already Registered? <Link to="/login">Login</Link>
               </span>
 
               <Button
                 type="submit"
-                label="Submit"
+                label="Signup"
                 className="w-full h-10 bg-blue-700 text-white rounded-full"
               />
-              <div className="flex gap-2">
-                <p>Not Registered Yet?</p>
-                <span className="text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer" onClick={() => navigate("/signup")} >
-                  Sign Up
-                </span>
-              </div>
             </div>
           </form>
         </div>
@@ -105,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

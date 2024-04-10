@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import TaskDetails from "./pages/Taskdetails";
 import Tasks from "./pages/Tasks";
 import Trash from "./pages/Trash";
@@ -43,7 +44,8 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
+          
+         
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/completed/:status" element={<Tasks />} />
           <Route path="/in-progress/:status" element={<Tasks />} />
@@ -52,11 +54,12 @@ export default function App() {
           <Route path="/trashed" element={<Trash />} />
           <Route path="/task/:id" element={<TaskDetails />} />
         </Route>
-
-        <Route path="/log-in" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
 
       <Toaster richColors />
     </main>
   );
 }
+
