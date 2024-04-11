@@ -26,7 +26,7 @@ export const createTeam = async (req, res) => {
       let { name, dateCreated, members} = req.body;
   
       let text = "You are a part of"+ name + " team";
-      members = [...members,userId]
+      members = [...members, userId] 
   
       const team = await Team.create({
         name,

@@ -95,11 +95,21 @@ export const registerUser = async (req, res) => {
         const { _id } = req.body;
     
         const id= userId !== _id ? _id : userId;
-    
-        const user = await User.findById(id);
+        let teams= []
+        
+        await User.findById(userId)
+        .populate('teams')
+        .exec((err, user) => {
+          if (err) {
+            // Handle error
+            return console.error(err);
+          }
+          
+          // Access the populated teams array
+          teams = user.teams;
+          console.log('Teams belonging to the user:', teams);
+        });
 
-
-        const teams = await Team.find().select("team");
   
       res.status(200).json(teams);
     } catch (error) {
@@ -110,7 +120,7 @@ export const registerUser = async (req, res) => {
 
   export const updateUserProfile = async (req, res) => {
     try {
-      const { userId} = req.user || req.body.user
+      const { userId} = req.user 
   
       //const id= userId !== _id ? _id : userId;
 
@@ -121,7 +131,8 @@ export const registerUser = async (req, res) => {
         user.name = req.body.name || user.name;
         user.title = req.body.title || user.title;
         user.role = req.body.role || user.role;
-        user.teams = [...user.teams, req.body.teams || user.teams]
+        if(!user.teams) user.teams = req.body.team
+        else user.teams = [...user.teams, req.body.team]
   
         const updatedUser = await user.save();
   

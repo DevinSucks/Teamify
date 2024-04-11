@@ -14,16 +14,15 @@ import  protectRoute from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.get("/",(req,res)=>{res.send("hello")})
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.post("/logout", logoutUser);
-
-router.get("/get-user",protectRoute,getUsers)
-router.get("/get-team", protectRoute, getTeamList);
+router.post("/register", registerUser); //done
+router.post("/login", loginUser); //done
+router.post("/logout", logoutUser); //done
 router.post("/create-team", protectRoute, createTeam);
 
-router.put("/profile", protectRoute, updateUserProfile);
-//router.put("/read-noti", protectRoute, markNotificationRead);
+router.get("/get-user",protectRoute,getUsers) //done
+router.get("/get-team", protectRoute, getTeamList);
+
+router.put("/profile", protectRoute, updateUserProfile);  //done via updatesection //remainng:add to team
 router.put("/change-password", protectRoute, changeUserPassword);
 
 export default router;

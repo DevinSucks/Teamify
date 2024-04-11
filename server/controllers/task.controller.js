@@ -236,7 +236,7 @@ export const updateTask = async (req, res) => {
     }
   };
 
-  export const deleteRestoreTask = async (req, res) => {
+  export const deleteTask = async (req, res) => {
     try {
       const { id } = req.params;
       const { actionType } = req.query;

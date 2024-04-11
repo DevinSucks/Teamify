@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const teamSchema = new Schema({
 
-    name:{type:String, required:true},
+    name:{type:String, required:true, unique:true},
     dateCreated: {type:Date, default:new Date()},
     members : [{type:Schema.Types.ObjectId, ref:"User"}],
     tasks : [{type:Schema.Types.ObjectId , ref:"task"}]
