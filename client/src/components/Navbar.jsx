@@ -6,6 +6,7 @@ import { HiBellAlert } from "react-icons/hi2";
 import { IoMdFlame } from "react-icons/io";
 import { GiTwoCoins } from "react-icons/gi";
 import UserAvatar from "./UserAvatar";
+import DarkMode from "./DarkMode";
 // import { FaCoins } from "react-icons/fa";
 
 const Navbar = () => {
@@ -49,6 +50,9 @@ const Navbar = () => {
         <div>
           <span className="text-2xl font-bold text-black">{time}</span>
         </div>
+      </div>
+      <div>
+        <DarkMode/>
       </div>
 
       <div className="flex gap-4 items-center">
