@@ -10,6 +10,7 @@ import Tasks from "./pages/Tasks";
 import Trash from "./pages/Trash";
 import Users from "./pages/Users";
 import Dashboard from "./pages/Dashboard";
+import ErrorPage from "./pages/ErrorPage";
 // import { setOpenSidebar } from "./redux/slices/authSlice";
 function Layout() {
   const { user } = useSelector((state) => state.auth);
@@ -56,6 +57,7 @@ export default function App() {
         </Route>
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="*" element={<ErrorPage/>} />
       </Routes>
 
       <Toaster richColors />
