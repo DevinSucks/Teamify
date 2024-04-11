@@ -1,39 +1,32 @@
 import React from 'react';
-import { useState } from 'react'
-import { Switch } from '@headlessui/react'
-const darkTheme = {
-  backgroundColor: '#222',
-  textColor: '#fff',
-  // Add more dark theme styles as needed
-};
-const lightTheme = {
-  backgroundColor: '#fff',
-  textColor: '#000',
-  // Add more light theme styles as needed
-};
+import useTheme from '../contexts/theme';
 
-export default function DarkMode() {
-  const [enabled, setEnabled] = useState(false)
-  const toggledarkmode=()=>{
-      setEnabled(!enabled)
-  }
-  const theme = enabled ? darkTheme : lightTheme
+export default function DarkMode({ className }) {
+    const { themeMode, lightTheme, darkTheme } = useTheme();
 
-  return (
-    <div>
-      <Switch
-        checked={enabled}
-        onChange={toggledarkmode}
-        className={`${enabled ? 'bg-slate-400' : 'bg-blue-700'}
-          relative inline-flex h-[28px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
-      >
-        <span className="sr-only">Use setting</span>
-        <span
-          aria-hidden="true"
-          className={`${enabled ? 'translate-x-6' : 'translate-x-0'}
-            pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-        />
-      </Switch>
-    </div>
-  )
+    const onChangeBtn = (e) => {
+        const darkModeStatus = e.currentTarget.checked;
+        if (darkModeStatus) {
+            darkTheme();
+        } else {
+            lightTheme();
+        }
+    };
+
+    // Ensure the className prop is properly applied
+    const containerClassName = "relative inline-flex items-center cursor-pointer " + className;
+
+    return (
+        <label className={containerClassName}>
+            <input
+                type="checkbox"
+                value=""
+                className="sr-only peer"
+                onChange={onChangeBtn}
+                checked={themeMode === "dark"}
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span className="ml-3 text-sm font-medium text-gray-900"></span>
+        </label>
+    );
 }
