@@ -1,5 +1,7 @@
-import { response } from "express";
+
+import Team from "../models/team.model.js";
 import User from "../models/user.model.js";
+import { createJWT } from "../utils/index.js";
 
 
 export const registerUser = async (req, res) => {
@@ -25,9 +27,8 @@ export const registerUser = async (req, res) => {
   
       if (user) {
         createJWT(res, user._id) 
-  
         user.password = undefined;
-  
+        console.log("User registered successfully")
         res.status(201).json(user);
       } else {
         return res
@@ -40,9 +41,10 @@ export const registerUser = async (req, res) => {
     }
   };
 
-  export const loginUser = async (req, res) => {
+  export const loginUser = async (req, res,next) => {
     try {
       const { email, password } = req.body;
+      console.log(email)
   
       const user = await User.findOne({ email });
   
@@ -55,11 +57,12 @@ export const registerUser = async (req, res) => {
       const isMatch = await user.matchPassword(password);
   
       if (user && isMatch) {
+        console.log("User logged in successfully")
         createJWT(res, user._id);
-  
         user.password = undefined;
-  
         res.status(200).json(user);
+
+        next()
       } else {
         return res
           .status(401)
@@ -69,6 +72,7 @@ export const registerUser = async (req, res) => {
       console.log(error);
       return res.status(400).json({ status: false, message: error.message });
     }
+
   };
   
   export const logoutUser = async (req, res) => {
@@ -85,19 +89,39 @@ export const registerUser = async (req, res) => {
   };
 
 
+  export const getTeamList = async (req, res) => {
+    try {
+        const { userId} = req.user;
+        const { _id } = req.body;
+    
+        const id= userId !== _id ? _id : userId;
+    
+        const user = await User.findById(id);
+
+
+        const teams = await Team.find().select("team");
+  
+      res.status(200).json(teams);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ status: false, message: error.message });
+    }
+  };
+
   export const updateUserProfile = async (req, res) => {
     try {
-      const { userId} = req.user;
-      const { _id } = req.body;
+      const { userId} = req.user || req.body.user
   
-      const id= userId !== _id ? _id : userId;
-  
-      const user = await User.findById(id);
-  
+      //const id= userId !== _id ? _id : userId;
+
+      const user = await User.findById(userId);
+      
+
       if (user) {
         user.name = req.body.name || user.name;
         user.title = req.body.title || user.title;
         user.role = req.body.role || user.role;
+        user.teams = [...user.teams, req.body.teams || user.teams]
   
         const updatedUser = await user.save();
   
@@ -122,7 +146,6 @@ export const registerUser = async (req, res) => {
       const { userId } = req.user;
   
       const user = await User.findById(userId);
-  
       if (user) {
         user.password = req.body.password;
   

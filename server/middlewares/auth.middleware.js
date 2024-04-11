@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
+import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next) => {
   try {
+    console.log(req.cookies)
     let token = req.cookies?.token;
-
+    console.log(token)
     if (token) {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -12,11 +13,10 @@ const protectRoute = async (req, res, next) => {
         "email"
       );
 
-      req.user = {      //wherever re.user is used it will return email and userId after authenticating the user
+      req.user = {      //wherever req.user is used it will return email and userId after authenticating the user
         email: resp.email,
         userId: decodedToken.userId,
       };
-
       next();
     } else {
       return res
@@ -33,4 +33,4 @@ const protectRoute = async (req, res, next) => {
 
 
 
-export { protectRoute };
+export default protectRoute;
