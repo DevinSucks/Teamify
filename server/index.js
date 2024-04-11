@@ -2,13 +2,15 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import morgan from "morgan"
-import connectToDatabase from "../server/utils/index.js"
-import userRoutes from "./routes/user.routes.js"
+import cookieParser from "cookie-parser"
+import {dbConnection} from "../server/utils/index.js"
+import Userroutes from "./routes/user.routes.js"
+import Taskroutes from "./routes/task.routes.js"
 import cors from "cors"
 dotenv.config()
 
 
-connectToDatabase()
+dbConnection()
 
 const PORT = process.env.PORT || 3000
 
@@ -25,7 +27,9 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/user", userRoutes);
+app.use(cookieParser())
+app.use("/api/user", Userroutes);
+app.use("/api/task", Taskroutes);
 
 
 app.listen(PORT,()=>{
