@@ -48,9 +48,7 @@ const Navbar = () => {
         </div>
 
         <div>
-          <span className="text-2xl font-bold text-black dark:text-white opacity-90">
-            {time}
-          </span>
+          <span className="text-2xl font-bold text-black">{time}</span>
         </div>
       </div>
       <div>

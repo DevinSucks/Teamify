@@ -33,11 +33,11 @@ const TaskTable = ({ tasks }) => {
   );
 
   const TableRow = ({ task }) => (
-    <tr className="border-b-red border-gray-300 text-gray-600 hover:bg-gray-300/10">
+    <tr className="border-b-red border-gray-300 text-gray-600 hover:bg-gray-300/10 dark:text-white dark:bg-slate-800">
       <td className="py-2">
         <div className="flex items-center gap-2">
           <div
-            className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
+            className={clsx("w-4 h-4 rounded-full dark:text-white dark:bg-slate-800", TASK_TYPE[task.stage])}
           />
 
           <p className="text-base text-black">{task.title}</p>
