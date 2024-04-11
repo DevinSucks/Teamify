@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { Toaster } from "sonner";
+// import { Toaster } from "sonner";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
@@ -44,8 +44,6 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          
-         
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/completed/:status" element={<Tasks />} />
           <Route path="/in-progress/:status" element={<Tasks />} />
@@ -58,8 +56,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
 
-      <Toaster richColors />
+      {/* <Toaster richColors /> */}
     </main>
   );
 }
-

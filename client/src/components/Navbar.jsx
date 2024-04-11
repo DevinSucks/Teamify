@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenSidebar } from "../redux/slices/authSlice";
-import { HiBellAlert } from "react-icons/hi2";
+// import { HiBellAlert } from "react-icons/hi2";
 import { IoMdFlame } from "react-icons/io";
 import { GiTwoCoins } from "react-icons/gi";
 import UserAvatar from "./UserAvatar";
-// import { FaCoins } from "react-icons/fa";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -53,15 +52,15 @@ const Navbar = () => {
 
       <div className="flex gap-4 items-center">
         {/* <NotificationPanel /> */}
-        <div className="flex gap-[4px] bg-slate-400 border rounded-lg w-[45px] justify-center ">
+        <div className="flex gap-[4px] bg-slate-400 border rounded-lg w-[45px] justify-center hover:bg-slate-300 ">
           <span>0</span>
           <IoMdFlame className="h-[24px]" />
         </div>
-        <div className="flex gap-[4px] bg-slate-400  border rounded-lg w-[45px] justify-center">
+        <div className="flex gap-[4px] bg-slate-400  border rounded-lg w-[45px] justify-center  hover:bg-slate-300">
           <span>0</span>
           <GiTwoCoins className="h-[24px]" />
         </div>
-        <HiBellAlert className="h-5 w-5 text-gray-600 group-hover:text-indigo-600" />
+        {/* <HiBellAlert className="h-5 w-5 text-gray-600 group-hover:text-indigo-600" /> */}
 
         <UserAvatar />
       </div>

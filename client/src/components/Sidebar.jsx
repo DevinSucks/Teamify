@@ -25,11 +25,6 @@ const linkData = [
     icon: <FaTasks />,
   },
   {
-    label: "Completed",
-    link: "completed/completed",
-    icon: <MdTaskAlt />,
-  },
-  {
     label: "In Progress",
     link: "in-progress/in progress",
     icon: <MdOutlinePendingActions />,
@@ -40,14 +35,9 @@ const linkData = [
     icon: <MdOutlinePendingActions />,
   },
   {
-    label: "Team",
+    label: "My Teams",
     link: "team",
     icon: <FaUsers />,
-  },
-  {
-    label: "Trash",
-    link: "trashed",
-    icon: <FaTrashAlt />,
   },
 ];
 
@@ -59,7 +49,7 @@ const Sidebar = () => {
 
   const path = location.pathname.split("/")[1];
 
-  const sidebarLinks = user.isAdmin ? linkData : linkData.slice(0, 5);
+  const sidebarLinks = linkData;
 
   const closeSidebar = () => {
     dispatch(setOpenSidebar(false));
