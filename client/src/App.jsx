@@ -42,7 +42,6 @@ export default function App() {
     <main className="w-full min-h-screen bg-[#f3f4f6] ">
       <Routes>
         <Route element={<Layout />}>
-          <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/completed/:status" element={<Tasks />} />
@@ -53,6 +52,7 @@ export default function App() {
           <Route path="/task/:id" element={<TaskDetails />} />
         </Route>
         <Route path="/SignUp" element={<SignUp />} />
+        <Route index path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
       </Routes>
 

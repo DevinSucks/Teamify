@@ -15,9 +15,19 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+
   const submitHandler = async (data) => {
-    console.log("submit");
-  };
+    let r = await fetch(
+        "api/user/login", 
+        {
+            method: "POST",  headers: {
+            "Content-Type": "application/json",},
+            body: JSON.stringify(data)
+        }
+        )
+            let res = await r.text()
+            console.log(data, res)
+  }
 
   // useEffect(() => {
   //   user && navigate("/dashboard");
