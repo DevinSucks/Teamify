@@ -32,19 +32,19 @@ const Users = () => {
   const TableHeader = () => (
     <thead className="border-b border-gray-300">
       <tr className="text-black text-left">
-        <th className="py-2">Team Name</th>
-        <th className="py-2">Date-Created</th>
-        <th className="py-2">Members</th>
-        <th className="py-2">Tasks</th>
-        <th className="py-2">Status</th>
+        <th className="py-2 dark:text-white">Team Name</th>
+        <th className="py-2 dark:text-white">Date-Created</th>
+        <th className="py-2 dark:text-white">Members</th>
+        <th className="py-2 dark:text-white">Tasks</th>
+        <th className="py-2 dark:text-white">Status</th>
       </tr>
     </thead>
   );
 
   const TableRow = ({ team }) => (
     <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-400/10">
-      <td className="p-2">{team.name}</td>
-      <td className="p-2">{team.dateCreated}</td>
+      <td className="p-2 dark:text-white">{team.name}</td>
+      <td className="p-2 dark:text-white">{team.dateCreated}</td>
       <td className="p-2">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-blue-700">
@@ -91,7 +91,7 @@ const Users = () => {
   return (
     <>
       <div className="w-full md:px-1 px-0 mb-6">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 ">
           <Title title="  Teams" />
           <Button
             label="Create Team"
@@ -101,8 +101,8 @@ const Users = () => {
           />
         </div>
 
-        <div className="bg-white px-2 md:px-4 py-4 shadow-md rounded">
-          <div className="overflow-x-auto">
+        <div className="bg-white px-2 md:px-4 py-4 shadow-md rounded dark:text-white dark:bg-slate-900">
+          <div className="overflow-x-auto dark:text-white ">
             <table className="w-full mb-5">
               <TableHeader />
               <tbody>
