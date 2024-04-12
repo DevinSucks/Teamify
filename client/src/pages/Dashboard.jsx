@@ -33,14 +33,14 @@ const TaskTable = ({ tasks }) => {
   );
 
   const TableRow = ({ task }) => (
-    <tr className="border-b-red border-gray-300 text-gray-600 hover:bg-gray-300/10">
+    <tr className="border-b-red border-gray-300 text-gray-600 hover:bg-gray-300/10 dark:text-white dark:bg-slate-800">
       <td className="py-2">
         <div className="flex items-center gap-2">
           <div
-            className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
+            className={clsx("w-4 h-4 rounded-full dark:text-white dark:bg-slate-800", TASK_TYPE[task.stage])}
           />
 
-          <p className="text-base text-black">{task.title}</p>
+          <p className="text-base text-black dark:text-white  ">{task.title}</p>
         </div>
       </td>
 
@@ -69,7 +69,7 @@ const TaskTable = ({ tasks }) => {
         </div>
       </td>
       <td className="py-2 hidden md:block">
-        <span className="text-base text-gray-600">
+        <span className="text-base text-gray-600 dark:text-white ">
           {moment(task?.date).fromNow()}
         </span>
       </td>
@@ -103,16 +103,16 @@ const UserTable = ({ users }) => {
   );
 
   const TableRow = ({ user }) => (
-    <tr className="border-b border-gray-200  text-gray-600 hover:bg-gray-400/10">
+    <tr className="border-b border-gray-200  text-gray-600 hover:bg-gray-400/10 dark:text-white">
       <td className="py-2">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-violet-700">
-            <span className="text-center">{getInitials(user?.name)}</span>
+            <span className="text-center dark:text-white">{getInitials(user?.name)}</span>
           </div>
 
           <div>
             <p> {user.name}</p>
-            <span className="text-xs text-black">{user?.role}</span>
+            <span className="text-xs text-black dark:text-white">{user?.role}</span>
           </div>
         </div>
       </td>

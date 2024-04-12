@@ -34,7 +34,7 @@ const Tasks = () => {
   const status = params?.status || "";
 
   return loading ? (
-    <div className="py-10">
+    <div className="py-10 ">
       <Loading />
     </div>
   ) : (
@@ -54,7 +54,7 @@ const Tasks = () => {
 
       <Tabs tabs={TABS} setSelected={setSelected}>
         {!status && (
-          <div className="w-full flex justify-between gap-4 md:gap-x-12 py-4">
+          <div className="w-full flex justify-between gap-4 md:gap-x-12 py-4 ">
             <TaskTitle label="To Do" className={TASK_TYPE.todo} />
             <TaskTitle
               label="In Progress"
@@ -67,7 +67,7 @@ const Tasks = () => {
         {selected !== 1 ? (
           <BoardView tasks={tasks} />
         ) : (
-          <div className="w-full">
+          <div className="w-full dark:text-white dark:bg-slate-900">
             <Table tasks={tasks} />
           </div>
         )}

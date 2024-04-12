@@ -27,7 +27,7 @@ const TaskCard = ({ task }) => {
 
   return (
     <>
-      <div className="w-full h-fit bg-white shadow-md p-4 rounded">
+      <div className="w-full h-fit bg-white shadow-md p-4 rounded dark:text-white dark:bg-slate-900">
         <div className="w-full flex justify-between">
           <div
             className={clsx(
@@ -35,8 +35,8 @@ const TaskCard = ({ task }) => {
               PRIOTITYSTYELS[task?.priority]
             )}
           >
-            <span className="text-lg">{ICONS[task?.priority]}</span>
-            <span className="uppercase">{task?.priority} Priority</span>
+            <span className="text-lg ">{ICONS[task?.priority]}</span>
+            <span className="uppercase ">{task?.priority} Priority</span>
           </div>
 
           {<TaskDialog task={task} />}
@@ -45,11 +45,11 @@ const TaskCard = ({ task }) => {
         <>
           <div className="flex items-center gap-2">
             <div
-              className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
+              className={clsx("w-4 h-4 rounded-full dark:text-white", TASK_TYPE[task.stage])}
             />
-            <h4 className="line-clamp-1 text-black">{task?.title}</h4>
+            <h4 className="line-clamp-1 text-black dark:text-white">{task?.title}</h4>
           </div>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-gray-600 dark:text-white">
             {formatDate(new Date(task?.date))}
           </span>
         </>
@@ -57,15 +57,15 @@ const TaskCard = ({ task }) => {
         <div className="w-full border-t border-gray-200 my-2" />
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
-            <div className="flex gap-1 items-center text-sm text-gray-600">
+            <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white">
               <BiMessageAltDetail />
               <span>{task?.activities?.length}</span>
             </div>
-            <div className="flex gap-1 items-center text-sm text-gray-600 ">
+            <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white ">
               <MdAttachFile />
               <span>{task?.assets?.length}</span>
             </div>
-            <div className="flex gap-1 items-center text-sm text-gray-600 ">
+            <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white ">
               <FaList />
               <span>0/{task?.subTasks?.length}</span>
             </div>
