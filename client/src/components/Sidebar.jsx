@@ -14,6 +14,7 @@ import { setOpenSidebar } from "../redux/slices/authSlice";
 import { fetchData } from "../utils";
 import clsx from "clsx";
 
+// Sidebar link data
 const linkData = [
   {
     label: "Dashboard",
@@ -42,28 +43,26 @@ const linkData = [
   },
 ];
 
+// Sidebar component
 const Sidebar = () => {
-  
-
+  // Redux state and dispatch hooks
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
-
   const path = location.pathname.split("/")[1];
-
   const sidebarLinks = linkData;
-  const [teams,setTeams]=[]  
-  const handleClick = ()=>{
-    console.log(data)
-  }
+
+  // Function to close sidebar
   const closeSidebar = () => {
     dispatch(setOpenSidebar(false));
   };
 
+  // NavLink component
   const NavLink = ({ el }) => {
     return (
       <Link
         to={el.link}
-        onClick={handleClick}
+        // onClick={handleClick}
         className={clsx(
           "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]  dark:text-white dark:bg-slate-900",
           path === el.link.split("/")[0] ? "bg-blue-700 text-neutral-100" : ""
@@ -77,6 +76,7 @@ const Sidebar = () => {
 
   return (
     <div className="w-full  h-full flex flex-col gap-6 p-5 dark:text-white dark:bg-slate-900 ">
+      {/* Sidebar header */}
       <h1 className="flex gap-1 items-center">
         <p className="bg-blue-600 p-2 rounded-full">
           <BsMicrosoftTeams className="text-white text-2xl font-black" />
@@ -84,12 +84,14 @@ const Sidebar = () => {
         <span className="text-2xl font-bold text-black  dark:text-white dark:bg-slate-800">Teamify</span>
       </h1>
 
+      {/* Sidebar links */}
       <div className="flex-1 flex flex-col gap-y-5 py-8 dark:text-white dark:bg-slate-900 ">
         {sidebarLinks.map((link) => (
           <NavLink el={link} key={link.label} />
         ))}
       </div>
 
+      {/* Settings button */}
       <div className="">
         <button className="w-full flex gap-2 p-2 items-center text-lg text-gray-800">
           <MdSettings />

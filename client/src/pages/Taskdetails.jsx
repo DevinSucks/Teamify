@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import moment from "moment";
-import React, { useState } from "react";
-import { FaBug, FaTasks, FaThumbsUp, FaUser } from "react-icons/fa";
+import clsx from "clsx"; // Importing clsx library for conditional class names
+import moment from "moment"; // Importing moment library for date formatting
+import React, { useState } from "react"; // Importing React modules
+import { FaBug, FaTasks, FaThumbsUp, FaUser } from "react-icons/fa"; // Importing icons from react-icons
 import { GrInProgress } from "react-icons/gr";
 import {
   MdKeyboardArrowDown,
@@ -12,38 +12,43 @@ import {
   MdTaskAlt,
 } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
-import { useParams } from "react-router-dom";
-import { toast } from "sonner";
-import { tasks } from "../assets/data";
-import Tabs from "../components/Tabs";
-import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
-import Loading from "../components/Loader";
-import Button from "../components/Button";
+import { useParams } from "react-router-dom"; // Importing useParams hook from react-router-dom
+import { toast } from "sonner"; // Importing toast from sonner
+import { tasks } from "../assets/data"; // Importing tasks data from assets
+import Tabs from "../components/Tabs"; // Importing Tabs component
+import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils"; // Importing utility functions
+import Loading from "../components/Loader"; // Importing Loader component
+import Button from "../components/Button"; // Importing Button component
 
 const assets = [
+  // Array of asset URLs
   "https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "https://images.pexels.com/photos/2534523/pexels-photo-2534523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "https://images.pexels.com/photos/804049/pexels-photo-804049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
 ];
 
+// Object containing icons for different task priorities
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
   low: <MdKeyboardArrowDown />,
 };
 
+// Object containing background colors for different task priorities
 const bgColor = {
   high: "bg-red-200",
   medium: "bg-yellow-200",
   low: "bg-blue-200",
 };
 
+// Array of tab objects for task details and activities/timeline
 const TABS = [
   { title: "Task Detail", icon: <FaTasks /> },
   { title: "Activities/Timeline", icon: <RxActivityLog /> },
 ];
 
+// Object containing icons for different task types
 const TASKTYPEICON = {
   commented: (
     <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center text-white">
@@ -77,6 +82,7 @@ const TASKTYPEICON = {
   ),
 };
 
+// Array of activity types
 const act_types = [
   "Started",
   "Completed",
@@ -86,22 +92,27 @@ const act_types = [
   "Assigned",
 ];
 
+// TaskDetails component
 const TaskDetails = () => {
-  const { id } = useParams();
-
-  const [selected, setSelected] = useState(0);
-  const task = tasks[0];
+  const { id } = useParams(); // Accessing route parameters
+  const [selected, setSelected] = useState(0); // State for selected tab
+  const task = tasks[0]; // Temporary task data
 
   return (
     <div className="w-full flex flex-col gap-3 mb-4 overflow-y-hidden">
+      {/* Task title */}
       <h1 className="text-2xl text-gray-600 font-bold">{task?.title}</h1>
 
+      {/* Tabs component */}
       <Tabs tabs={TABS} setSelected={setSelected}>
+        {/* Conditionally rendering tab content based on selected tab */}
         {selected === 0 ? (
           <>
+            {/* Task detail section */}
             <div className="w-full flex flex-col md:flex-row gap-5 2xl:gap-8 bg-white shadow-md p-8 overflow-y-auto">
               {/* LEFT */}
               <div className="w-full md:w-1/2 space-y-8">
+                {/* Priority and stage */}
                 <div className="flex items-center gap-5">
                   <div
                     className={clsx(
@@ -125,10 +136,12 @@ const TaskDetails = () => {
                   </div>
                 </div>
 
+                {/* Created date */}
                 <p className="text-gray-500">
                   Created At: {new Date(task?.date).toDateString()}
                 </p>
 
+                {/* Assets and sub-tasks */}
                 <div className="flex items-center gap-8 p-4 border-y border-gray-200">
                   <div className="space-x-2">
                     <span className="font-semibold">Assets :</span>
@@ -143,6 +156,7 @@ const TaskDetails = () => {
                   </div>
                 </div>
 
+                {/* Task team */}
                 <div className="space-y-4 py-6">
                   <p className="text-gray-600 font-semibold test-sm">
                     TASK TEAM
@@ -172,6 +186,7 @@ const TaskDetails = () => {
                   </div>
                 </div>
 
+                {/* Sub-tasks */}
                 <div className="space-y-4 py-6">
                   <div className="space-y-8">
                     {task?.subTasks?.map((el, index) => (
@@ -200,6 +215,7 @@ const TaskDetails = () => {
               </div>
               {/* RIGHT */}
               <div className="w-full md:w-1/2 space-y-8">
+                {/* Asset section */}
                 <p className="text-lg font-semibold">ASSETS</p>
 
                 <div className="w-full grid grid-cols-2 gap-4">
@@ -217,6 +233,7 @@ const TaskDetails = () => {
           </>
         ) : (
           <>
+            {/* Activities section */}
             <Activities activity={task?.activities} id={id} />
           </>
         )}
@@ -225,13 +242,16 @@ const TaskDetails = () => {
   );
 };
 
+// Activities component
 const Activities = ({ activity, id }) => {
-  const [selected, setSelected] = useState(act_types[0]);
-  const [text, setText] = useState("");
-  const isLoading = false;
+  const [selected, setSelected] = useState(act_types[0]); // State for selected activity type
+  const [text, setText] = useState(""); // State for input text
+  const isLoading = false; // Loading state
 
+  // Function to handle form submission
   const handleSubmit = async () => {};
 
+  // Card component to render individual activity item
   const Card = ({ item }) => {
     return (
       <div className="flex space-x-4">
@@ -258,10 +278,12 @@ const Activities = ({ activity, id }) => {
 
   return (
     <div className="w-full flex gap-10 2xl:gap-20 min-h-screen px-10 py-8 bg-white shadow rounded-md justify-between overflow-y-auto">
+      {/* Activity list */}
       <div className="w-full md:w-1/2">
         <h4 className="text-gray-600 font-semibold text-lg mb-5">Activities</h4>
 
         <div className="w-full">
+          {/* Mapping through activity array and rendering Card component */}
           {activity?.map((el, index) => (
             <Card
               key={index}
@@ -272,11 +294,13 @@ const Activities = ({ activity, id }) => {
         </div>
       </div>
 
+      {/* Add activity section */}
       <div className="w-full md:w-1/3">
         <h4 className="text-gray-600 font-semibold text-lg mb-5">
           Add Activity
         </h4>
         <div className="w-full flex flex-wrap gap-5">
+          {/* Mapping through activity types and rendering checkboxes */}
           {act_types.map((item, index) => (
             <div key={item} className="flex gap-2 items-center">
               <input
@@ -288,6 +312,7 @@ const Activities = ({ activity, id }) => {
               <p>{item}</p>
             </div>
           ))}
+          {/* Text area for input */}
           <textarea
             rows={10}
             value={text}
@@ -295,6 +320,7 @@ const Activities = ({ activity, id }) => {
             placeholder="Type ......"
             className="bg-white w-full mt-10 border border-gray-300 outline-none p-4 rounded-md focus:ring-2 ring-blue-500"
           ></textarea>
+          {/* Button for submitting activity */}
           {isLoading ? (
             <Loading />
           ) : (
@@ -310,4 +336,5 @@ const Activities = ({ activity, id }) => {
     </div>
   );
 };
+
 export default TaskDetails;

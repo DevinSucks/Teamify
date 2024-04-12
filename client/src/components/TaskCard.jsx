@@ -13,21 +13,26 @@ import { BiMessageAltDetail } from "react-icons/bi";
 import { FaList } from "react-icons/fa";
 import UserInfo from "./UserInfo";
 import { IoMdAdd } from "react-icons/io";
-// import AddSubTask from "./task/AddSubTask";
 
+// Icons for priority levels
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
   low: <MdKeyboardArrowDown />,
 };
 
+// Task card component
 const TaskCard = ({ task }) => {
+  // Redux state hook
   const { user } = useSelector((state) => state.auth);
+  // Local state for dialog visibility
   const [open, setOpen] = useState(false);
 
   return (
     <>
+      {/* Task card container */}
       <div className="w-full h-fit bg-white shadow-md p-4 rounded dark:text-white dark:bg-slate-900">
+        {/* Priority and dialog button */}
         <div className="w-full flex justify-between">
           <div
             className={clsx(
@@ -38,10 +43,11 @@ const TaskCard = ({ task }) => {
             <span className="text-lg ">{ICONS[task?.priority]}</span>
             <span className="uppercase ">{task?.priority} Priority</span>
           </div>
-
+          {/* Task dialog */}
           {<TaskDialog task={task} />}
         </div>
 
+        {/* Task title and date */}
         <>
           <div className="flex items-center gap-2">
             <div
@@ -54,23 +60,30 @@ const TaskCard = ({ task }) => {
           </span>
         </>
 
+        {/* Divider */}
         <div className="w-full border-t border-gray-200 my-2" />
+
+        {/* Task details */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
+            {/* Task activity count */}
             <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white">
               <BiMessageAltDetail />
               <span>{task?.activities?.length}</span>
             </div>
+            {/* Task asset count */}
             <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white ">
               <MdAttachFile />
               <span>{task?.assets?.length}</span>
             </div>
+            {/* Subtask count */}
             <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-white ">
               <FaList />
               <span>0/{task?.subTasks?.length}</span>
             </div>
           </div>
 
+          {/* Task team members */}
           <div className="flex flex-row-reverse">
             {task?.team?.map((m, index) => (
               <div
@@ -86,7 +99,7 @@ const TaskCard = ({ task }) => {
           </div>
         </div>
 
-        {/* sub tasks */}
+        {/* Subtask */}
         {task?.subTasks?.length > 0 ? (
           <div className="py-4 border-t border-gray-200">
             <h5 className="text-base line-clamp-1 text-black">
@@ -102,14 +115,9 @@ const TaskCard = ({ task }) => {
               </span>
             </div>
           </div>
-        ) : (
-          <>
-            {/* <div className="py-4 border-t border-gray-200">
-              <span className="text-gray-500">No Sub Task</span>
-            </div> */}
-          </>
-        )}
+        ) : null}
 
+        {/* Add subtask button */}
         {/* <div className="w-full pb-2">
           <button
             onClick={() => setOpen(true)}
@@ -122,6 +130,7 @@ const TaskCard = ({ task }) => {
         </div> */}
       </div>
 
+      {/* Subtask dialog */}
       {/* <AddSubTask open={open} setOpen={setOpen} id={task._id} /> */}
     </>
   );
