@@ -3,48 +3,36 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
-import { useSelector } from "react-redux";
 import {fetchData} from "../utils/index.js"
-import { data } from "autoprefixer";
-
 
 const Login = () => {
-  const { user } = useSelector((state) => state.auth);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();   
 
-  const submitHandler = async (data) => {
+  const onSubmit = async (data) => { // Define an asynchronous function called onSubmit that takes form data as an argument
     try {
-      const response = await fetchData("POST", "http://localhost:3000/api/user/register", data);
-      
-        console.log(response)
-        navigate("/dashboard"); // Navigate to dashboard page
-      
-      // Handle response, e.g., show success message or navigate to another page
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error, e.g., show error message to the user
-    }
-   
-  };
-  const onSubmit = async (data) => {
-    try {
-        const response = await fetchData("POST", "http://localhost:3000/api/user/register", data);
-        console.log(response)
-        navigate("/dashboard"); // Navigate to dashboard page
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error, e.g., show error message to the user
-    }
-   
-  };
+        // Send a POST request to the backend endpoint with the provided data
+        const response = await fetchData("POST", "http://localhost:3000/api/user/login", data);
+        
+        // If the response status is 200 (OK)
+        if(response.status !== false){
+            console.log(response); // Log the response object
+            navigate("/dashboard"); // Navigate to the dashboard page
+            return
+        }
+    } catch (error) { // Catch any errors that occur during the request
+        console.error('Error fetching data:', error); // Log the error
+        navigate("/login"); // Navigate back to the login page
+    } 
+};
+
   
-
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
       <div className="w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center">

@@ -11,6 +11,7 @@ import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
+import { fetchData } from "../utils";
 import clsx from "clsx";
 
 const linkData = [
@@ -42,7 +43,7 @@ const linkData = [
 ];
 
 const Sidebar = () => {
-  const { user } = useSelector((state) => state.auth);
+  
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -50,7 +51,10 @@ const Sidebar = () => {
   const path = location.pathname.split("/")[1];
 
   const sidebarLinks = linkData;
-
+  const [teams,setTeams]=[]  
+  const handleClick = ()=>{
+    console.log(data)
+  }
   const closeSidebar = () => {
     dispatch(setOpenSidebar(false));
   };
@@ -59,7 +63,7 @@ const Sidebar = () => {
     return (
       <Link
         to={el.link}
-        onClick={closeSidebar}
+        onClick={handleClick}
         className={clsx(
           "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]  dark:text-white dark:bg-slate-900",
           path === el.link.split("/")[0] ? "bg-blue-700 text-neutral-100" : ""
