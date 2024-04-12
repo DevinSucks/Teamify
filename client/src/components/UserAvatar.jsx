@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "../utils";
 import { user } from "../assets/data";
+import { fetchData } from "../utils";
 
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
@@ -13,8 +14,15 @@ const UserAvatar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logoutHandler = () => {
-    console.log("logout");
+  const logoutHandler = async() => {
+    const response = await fetchData("POST", "http://localhost:3000/api/user/logout");
+        
+        // If the response status is 200 (OK)
+        if(response.status !== false){
+            console.log(response); // Log the response object
+            navigate("/login"); // Navigate to the dashboard page
+            return
+        }
   };
 
   return (

@@ -5,6 +5,7 @@ import Textbox from "../Textbox";
 import { useForm } from "react-hook-form";
 import { BiImages } from "react-icons/bi";
 import Button from "../Button";
+import { fetchData } from "../../utils";
 
 const EditProfile = ({ open, setOpen }) => {
   const user = "";
@@ -16,7 +17,22 @@ const EditProfile = ({ open, setOpen }) => {
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const submitHandler = () => {};
+  const submitHandler = async (data) => { // Define an asynchronous function called onSubmit that takes form data as an argument
+    try {
+        // Send a POST request to the backend endpoint with the provided data
+        const response = await fetchData("PUT", "http://localhost:3000/api/user/profile", data);
+        
+        // If the response status is 200 (OK)
+        if(response.status !== false){
+            console.log(response); // Log the response object
+            navigate("/dashboard"); // Navigate to the dashboard page
+            return
+        }
+    } catch (error) { // Catch any errors that occur during the request
+        console.error('Error updating profile:', error); // Log the error
+        navigate("/dashboard"); // Navigate back to the login page
+    } 
+};
 
   const handleSelect = (e) => {
     setAssets(e.target.files);

@@ -5,6 +5,7 @@ import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import {fetchData} from "../utils/index.js"
 
+
 const Login = () => {
 
   const {
@@ -23,6 +24,8 @@ const Login = () => {
         // If the response status is 200 (OK)
         if(response.status !== false){
             console.log(response); // Log the response object
+            
+
             navigate("/dashboard"); // Navigate to the dashboard page
             return
         }
