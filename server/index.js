@@ -9,22 +9,17 @@ import Taskroutes from "./routes/task.routes.js"
 import cors from "cors"
 dotenv.config()
 
-
 dbConnection()
 
 let PORT = process.env.PORT || 3001
 
-const app = [express(),express()]
+const app = express()
 
-app.map((app)=>{
+
 app.use(express.json())
 app.use(express.urlencoded())
 
-app.use(cors({
-    origin:["http://localhost:3000","http://localhost:3001"],
-    methods:["GET","PUT","POST","PATCH","DELETE"],
-    credentials:true
-}))
+app.use(cors())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,5 +30,4 @@ app.use("/api/task", Taskroutes);
 
 app.listen(PORT++,()=>{
     console.log("Listening at port",PORT-1)
-})
 })

@@ -20,6 +20,33 @@ export const createJWT = (res, userId) => {
 
 };
 
+const fetchData = async (method, url, data = null) => {
+   
+    try {
+      let response;
+      if (method === 'GET') {
+        response = await fetch(url);
+      } else if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+        const requestOptions = {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        };
+        response = await fetch(url, requestOptions);
+      }
+      const jsonData = await response.json();
+      return jsonData;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; // Re-throw the error to handle it in the component if needed
+    }
+  };
+  
+  export default fetchData;
+  
+
 
 
 // export const html =  `<!DOCTYPE html>
@@ -82,7 +109,7 @@ export const mailer = async (to,text) => {
         subject: `${text}`,
         html: `
         <h1>Hello there</h1>
-        <p>Isn't NodeMailer useful?</p>
+        <p>Notofication from Teamify</p>
         `,
       });
     

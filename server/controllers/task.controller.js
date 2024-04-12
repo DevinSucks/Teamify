@@ -147,6 +147,32 @@ export const createTask = async (req, res) => {
       }
   };
 
+  
+  export const getPersonalTasks = async (req, res) => {
+    try {
+      const { userId } = req.user;
+      const { _id } = req.query;
+      const id = userId !== _id ? _id : userId;
+  
+      const user = await User.findById(userId).populate('tasks');
+      const tasks = user.tasks;
+  
+      // Perform additional tasks manipulation before sending the response
+      const filteredTasks = tasks.filter(task => {
+        let members = Task.findById(task).members
+        return members.length === 1 && members[0]===userId;
+      });
+  
+      console.log('Tasks belonging to the user:', filteredTasks);
+      console.log(user);
+  
+      res.status(200).json(filteredTasks);
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({ status: false, message: error.message });
+    }
+  };
+
   //by id
   export const getTask = async (req, res) => {
     console.log(req.params);
@@ -172,7 +198,7 @@ export const createTask = async (req, res) => {
         console.log(error);
         return res.status(400).json({ status: false, message: error.message });
     }
-}; //schema data type issue
+  }; //schema data type issue
 
 
 
@@ -276,7 +302,6 @@ export const updateTask = async (req, res) => {
     }
   };
 
-  
   export const deleteTask = async (req, res) => {
     try {
       const { id } = req.params;

@@ -39,7 +39,7 @@ const taskSchema = new Schema(
       },
     ],
     assets: [String],
-    team: {type:Schema.Types.ObjectId , ref:"Team"},
+    team: {type:Schema.Types.ObjectId , ref:"Team",  default:"none"},
     members:  [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
   { timestamps: true }

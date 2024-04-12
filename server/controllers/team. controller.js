@@ -6,18 +6,26 @@ import { mailer } from "../utils/index.js";
 import { updateUserProfile } from "./user.controller.js";
 
 export const getUsers = async (req, res) => {
-    try {
-   
-        const allUsers = await User.find();
-
-       
-        res.send(allUsers);
-    } catch (error) {
-        // Handle any errors that occur during the query execution
-        console.log(error);
-        return res.status(400).json({ status: false, message: error.message });
-    }
+  try {
+      const { userId } = req.user;
+      // Get the team parameter from the query string
+      let team = req.query.team;
+      // Fetch all users from the database
+      let allUsers = await User.find();
+      let teamofUser = User.findById(userId).teams
+      // Filter users based on the specified team
+      if (team) {
+          allUsers = allUsers.filter((user) => user.teams.includes(team));
+      }
+      // Send the filtered users in the response
+      res.send(allUsers);
+  } catch (error) {
+      // Handle any errors that occur during the query execution
+      console.log(error);
+      return res.status(400).json({ status: false, message: error.message });
+  }
 };
+
 
 export const createTeam = async (req, res) => {
   try {
@@ -67,4 +75,7 @@ export const createTeam = async (req, res) => {
       return res.status(400).json({ status: false, message: error.message });
   }
 };
+
+
+
 

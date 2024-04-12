@@ -8,6 +8,7 @@ import {
   updateTask,
   deleteTask,
   getTaskByUser,
+  getPersonalTasks,
 } from "../controllers/task.controller.js";
 import  protectRoute  from "../middlewares/auth.middleware.js";
 
@@ -19,8 +20,8 @@ router.post("/activity/:id", protectRoute, postTaskActivity);
 
 router.get("/dashboard", protectRoute, dashboardStatistics);
 router.get("/all-tasks", protectRoute, getTaskByUser); //done
+router.get("/personal-tasks",protectRoute, getPersonalTasks)
 router.get("/:id", protectRoute, getTask);  
-
 
 
 router.put("/update/:id", protectRoute, updateTask);

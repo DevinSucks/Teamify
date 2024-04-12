@@ -2,6 +2,7 @@
 import Team from "../models/team.model.js";
 import User from "../models/user.model.js";
 import { createJWT } from "../utils/index.js";
+import { mailer } from "../utils/index.js";
 
 
 export const registerUser = async (req, res) => {
@@ -58,6 +59,8 @@ export const registerUser = async (req, res) => {
   
       if (user && isMatch) {
         console.log("User logged in successfully")
+        const text = "You have been logged in to teamify"
+        await mailer(email,text)
         createJWT(res, user._id);
         user.password = undefined;
         res.status(200).json(user);
@@ -103,7 +106,8 @@ export const registerUser = async (req, res) => {
           return res.status(400).json({ status: false, message: error.message });
       }
   };
-
+  
+  
   export const updateUserProfile = async (req, res) => {
     try {
         let Id= ""
@@ -147,7 +151,6 @@ export const registerUser = async (req, res) => {
         return res.status(400).json({ status: false, message: error.message });
     }
   };
-
   
   export const changeUserPassword = async (req, res) => {
     try {
@@ -173,4 +176,5 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ status: false, message: error.message });
     }
   };
+  
   
