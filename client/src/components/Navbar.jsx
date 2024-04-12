@@ -6,6 +6,8 @@ import { setOpenSidebar } from "../redux/slices/authSlice";
 import { IoMdFlame } from "react-icons/io";
 import { GiTwoCoins } from "react-icons/gi";
 import UserAvatar from "./UserAvatar";
+import DarkMode from "./DarkMode";
+// import { FaCoins } from "react-icons/fa";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -26,7 +28,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10 top-0">
+    <div className="flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10 top-0 dark:text-white dark:bg-slate-900  ">
       <div className="flex gap-4">
         <button
           onClick={() => dispatch(setOpenSidebar(true))}
@@ -35,7 +37,7 @@ const Navbar = () => {
           ☰
         </button>
 
-        <div className="w-[200px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6]">
+        <div className="w-[200px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6] opacity-90">
           <MdOutlineSearch className="text-gray-500 text-xl" />
 
           <input
@@ -46,8 +48,13 @@ const Navbar = () => {
         </div>
 
         <div>
-          <span className="text-2xl font-bold text-black">{time}</span>
+          <span className="text-2xl font-bold text-black dark:text-white opacity-90">
+            {time}
+          </span>
         </div>
+      </div>
+      <div>
+        <DarkMode />
       </div>
 
       <div className="flex gap-4 items-center">

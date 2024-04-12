@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 // import { Toaster } from "sonner";
@@ -10,6 +11,9 @@ import Tasks from "./pages/Tasks";
 import Trash from "./pages/Trash";
 import Users from "./pages/Users";
 import Dashboard from "./pages/Dashboard";
+import ErrorPage from "./pages/ErrorPage";
+import { ThemeProvider } from './contexts/theme'
+import DarkMode from "./components/DarkMode";
 // import { setOpenSidebar } from "./redux/slices/authSlice";
 function Layout() {
   const { user } = useSelector((state) => state.auth);
@@ -38,8 +42,21 @@ function Layout() {
 }
 
 export default function App() {
+  const [themeMode, setThemeMode] = useState("light")
+  const lightTheme = () => {
+    setThemeMode("light")
+  }
+  const darkTheme = () => {
+    setThemeMode("dark")
+  }
+  useEffect(() => {
+    document.querySelector('html').classList.remove("light", "dark")
+    document.querySelector('html').classList.add(themeMode)
+  }, [themeMode])
   return (
-    <main className="w-full min-h-screen bg-[#f3f4f6] ">
+    <ThemeProvider value={{themeMode, lightTheme, darkTheme}}>
+      <DarkMode className="hidden"/>
+    <main className="w-full min-h-screen bg-[#f3f4f6] dark:text-white dark:bg-slate-800 ">
       <Routes>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
@@ -54,7 +71,9 @@ export default function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route index path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
+        <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </main>
+    </ThemeProvider>
   );
 }

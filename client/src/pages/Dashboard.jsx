@@ -22,8 +22,8 @@ const TaskTable = ({ tasks }) => {
   };
 
   const TableHeader = () => (
-    <thead className="border-b border-gray-300 ">
-      <tr className="text-black text-left">
+    <thead className="border-b border-gray-300  dark:text-white dark:bg-slate-800 ">
+      <tr className="text-black text-left dark:text-white">
         <th className="py-2">Task Title</th>
         <th className="py-2">Priority</th>
         <th className="py-2">Team</th>
@@ -77,7 +77,7 @@ const TaskTable = ({ tasks }) => {
   );
   return (
     <>
-      <div className="w-full md:w-2/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded">
+      <div className="w-full md:w-2/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded  dark:text-white dark:bg-slate-800">
         <table className="w-full">
           <TableHeader />
           <tbody>
@@ -95,9 +95,9 @@ const UserTable = ({ users }) => {
   const TableHeader = () => (
     <thead className="border-b border-gray-300 ">
       <tr className="text-black  text-left">
-        <th className="py-2">Full Name</th>
-        <th className="py-2">Status</th>
-        <th className="py-2">Created At</th>
+        <th className="py-2 dark:text-white">Full Name</th>
+        <th className="py-2 dark:text-white">Status</th>
+        <th className="py-2 dark:text-white">Created At</th>
       </tr>
     </thead>
   );
@@ -132,7 +132,7 @@ const UserTable = ({ users }) => {
   );
 
   return (
-    <div className="w-full md:w-1/3 bg-white h-fit px-2 md:px-6 py-4 shadow-md rounded">
+    <div className="w-full md:w-1/3 bg-white h-fit px-2 md:px-6 py-4 shadow-md rounded dark:text-white dark:bg-slate-800">
       <table className="w-full mb-5">
         <TableHeader />
         <tbody>
@@ -180,10 +180,12 @@ const Dashboard = () => {
 
   const Card = ({ label, count, bg, icon }) => {
     return (
-      <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
+      <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between  dark:text-white dark:bg-slate-900">
         <div className="h-full flex flex-1 flex-col justify-between">
-          <p className="text-base text-gray-600">{label}</p>
-          <span className="text-2xl font-semibold">{count}</span>
+          <p className="text-base text-gray-600 dark:text-white">{label}</p>
+          <span className="text-2xl font-semibold dark:text-white">
+            {count}
+          </span>
           <span className="text-sm text-gray-400">{"110 last month"}</span>
         </div>
 
@@ -199,7 +201,7 @@ const Dashboard = () => {
     );
   };
   return (
-    <div className="h-full py-4">
+    <div className="h-full py-4  dark:text-white dark:bg-slate-900">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
         {stats.map(({ icon, bg, label, total }, index) => (
           <Card key={index} icon={icon} bg={bg} label={label} count={total} />
