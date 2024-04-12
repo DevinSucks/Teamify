@@ -7,7 +7,7 @@ import { getInitials } from "../utils";
 import UserInfo from "../components/UserInfo";
 import clsx from "clsx";
 import ConfirmatioDialog, { UserAction } from "../components/Dialogs";
-import AddUser from "../components/AddUser";
+import AddUser from "../components/AddTeam";
 import DatePicker from "react-datepicker"; //have to add this in node modules
 
 const Users = () => {

@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "../utils";
 import { user } from "../assets/data";
-
+import EditProfile from "./task/EditProfile";
 const UserAvatar = () => {
-  const [open, setOpen] = useState(false);
+  const [openEditProfile, setEditProfile] = useState(false);
   const [openPassword, setOpenPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const UserAvatar = () => {
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                      onClick={() => setOpen(true)}
+                      onClick={() => setEditProfile(true)}
                       className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base"
                     >
                       <FaUser className="mr-2" aria-hidden="true" />
@@ -79,6 +79,7 @@ const UserAvatar = () => {
             </Menu.Items>
           </Transition>
         </Menu>
+        <EditProfile open={openEditProfile} setOpen={setEditProfile} />
       </div>
     </>
   );

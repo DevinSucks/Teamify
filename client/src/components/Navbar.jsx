@@ -37,18 +37,17 @@ const Navbar = () => {
           ☰
         </button>
 
-        <div className="w-[200px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6] opacity-90">
+        <div className="w-[200px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6] opacity-90 visible max-[768px]:hidden">
           <MdOutlineSearch className="text-gray-500 text-xl" />
 
           <input
-            type="text"
             placeholder="Search...."
-            className="flex-1 outline-none bg-transparent placeholder:text-gray-500 text-gray-800"
+            className="flex-1 outline-none bg-transparent placeholder:text-gray-500 text-gray-800 "
           />
         </div>
 
         <div>
-          <span className="text-2xl font-bold text-black dark:text-white opacity-90">
+          <span className="text-2xl font-bold text-black visible max-[768px]:hidden  dark:text-white opacity-90">
             {time}
           </span>
         </div>

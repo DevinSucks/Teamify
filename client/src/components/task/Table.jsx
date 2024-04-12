@@ -116,7 +116,7 @@ const Table = ({ tasks }) => {
           className="text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base"
           label="Edit"
           type="button"
-          onClick={() => setOpenEdit(true)}
+          onClick={() => setOpenEdit(!openEdit)}
         />
         <AddTask
           open={openEdit}

@@ -25,11 +25,6 @@ const linkData = [
     icon: <FaTasks />,
   },
   {
-    label: "In Progress",
-    link: "in-progress/in progress",
-    icon: <MdOutlinePendingActions />,
-  },
-  {
     label: "To Do",
     link: "todo/todo",
     icon: <MdOutlinePendingActions />,
@@ -40,9 +35,9 @@ const linkData = [
     icon: <FaUsers />,
   },
 ];
-
+//array of objects containing Links to the pages
 const Sidebar = () => {
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -77,7 +72,9 @@ const Sidebar = () => {
         <p className="bg-blue-600 p-2 rounded-full">
           <BsMicrosoftTeams className="text-white text-2xl font-black" />
         </p>
-        <span className="text-2xl font-bold text-black  dark:text-white dark:bg-slate-800">Teamify</span>
+        <span className="text-2xl font-bold text-black  dark:text-white dark:bg-slate-800">
+          Teamify
+        </span>
       </h1>
 
       <div className="flex-1 flex flex-col gap-y-5 py-8 dark:text-white dark:bg-slate-900 ">
