@@ -24,6 +24,31 @@ export function dateFormatter(dateString) {
   return formattedDate;
 }
 
+export const fetchData = async (method, url, data ) => {
+  try {
+    let response;
+    if (method === 'GET') {
+      response = await fetch(url);
+    } else if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+      const requestOptions = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      response = await fetch(url, requestOptions);
+    }
+    const jsonData = await response.json();
+    return jsonData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error; // Re-throw the error to handle it in the component if needed
+  }
+};
+
+
+
 export function getInitials(fullName) {
   const names = fullName.split(" ");
 

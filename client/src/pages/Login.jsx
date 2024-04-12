@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
+import {fetchData} from "../utils/index.js"
+import { data } from "autoprefixer";
+
 
 const Login = () => {
   const { user } = useSelector((state) => state.auth);
@@ -15,23 +18,32 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-
   const submitHandler = async (data) => {
-    let r = await fetch(
-        "api/user/login", 
-        {
-            method: "POST",  headers: {
-            "Content-Type": "application/json",},
-            body: JSON.stringify(data)
-        }
-        )
-            let res = await r.text()
-            console.log(data, res)
-  }
-
-  // useEffect(() => {
-  //   user && navigate("/dashboard");
-  // }, [user]);
+    try {
+      const response = await fetchData("POST", "http://localhost:3000/api/user/register", data);
+      
+        console.log(response)
+        navigate("/dashboard"); // Navigate to dashboard page
+      
+      // Handle response, e.g., show success message or navigate to another page
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error, e.g., show error message to the user
+    }
+   
+  };
+  const onSubmit = async (data) => {
+    try {
+        const response = await fetchData("POST", "http://localhost:3000/api/user/register", data);
+        console.log(response)
+        navigate("/dashboard"); // Navigate to dashboard page
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error, e.g., show error message to the user
+    }
+   
+  };
+  
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
@@ -56,7 +68,7 @@ const Login = () => {
         {/* right side */}
         <div className="w-full md:w-1/3 p-4 md:p-1 flex flex-col justify-center items-center">
           <form
-            onSubmit={handleSubmit(submitHandler)}
+            onSubmit={handleSubmit(onSubmit)}
             className="form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14"
           >
             <div className="">

@@ -1,27 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
+import { fetchData } from "../utils/index.js";
+import {useNavigate} from "react-router-dom"
 
 const SignUp = () => {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-
   const submitHandler = async (data) => {
-    console.log("submit");
+    try {
+      const response = await fetchData("POST", "http://localhost:3000/api/user/register", data);
+      
+        console.log(response)
+        navigate("/dashboard"); // Navigate to dashboard page
+      
+      // Handle response, e.g., show success message or navigate to another page
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error, e.g., show error message to the user
+    }
+   
   };
-
-  // useEffect(() => {
-  //   user && navigate("/dashboard");
-  // }, [user]);
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
@@ -54,23 +62,22 @@ const SignUp = () => {
               <p className="text-blue-600 text-3xl font-bold text-center">
                 SignUp to efficiency
               </p>
-              <p className="text-center text-base text-gray-700 ">
-              </p>
+              <p className="text-center text-base text-gray-700 "></p>
             </div>
 
             <div className="flex flex-col gap-y-5">
-            <Textbox
+              <Textbox
                 placeholder="your name"
                 type="string"
-                name="Username"
-                label="Username*"
+                name="name"
+                label="Username"
                 className="w-full rounded-full"
-                register={register("Username", {
+                register={register("name", {
                   required: "Username is required!",
                 })}
-                error={errors.email ? errors.Username.message : ""}
+                error={errors.Username ? errors.Username.message : ""}
               />
-               <Textbox
+              <Textbox
                 placeholder="email@example.com"
                 type="email"
                 name="email"
@@ -92,30 +99,29 @@ const SignUp = () => {
                 })}
                 error={errors.password ? errors.password.message : ""}
               />
-              
-               <Textbox
+              <Textbox
                 placeholder="your Organisation"
                 type="string"
-                name="Organisation"
+                name="organisation"
                 label="Organisation"
                 className="w-full rounded-full"
-                register={register("Organisation", {
+                register={register("organisation", {
                   required: "Organisation name is required!",
                 })}
-                error={errors.email ? errors.Organisation.message : ""}
+                error={errors.Organisation ? errors.Organisation.message : ""}
               />
               <Textbox
                 placeholder="your role"
                 type="string"
-                name="position"
+                name="role"
                 label="Position*"
                 className="w-full rounded-full"
-                register={register("position", {
+                register={register("role", {
                   required: "Position is required!",
                 })}
-                error={errors.email ? errors.position.message : ""}
+                error={errors.position ? errors.position.message : ""}
               />
-              
+
               <span className="text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer">
                 Already Registered? <Link to="/login">Login</Link>
               </span>

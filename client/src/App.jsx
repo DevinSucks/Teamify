@@ -55,8 +55,6 @@ export default function App() {
         <Route index path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-
-      {/* <Toaster richColors /> */}
     </main>
   );
 }
