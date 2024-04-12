@@ -88,69 +88,66 @@ export const registerUser = async (req, res) => {
     }
   };
 
-
   export const getTeamList = async (req, res) => {
     try {
         const { userId} = req.user;
         const { _id } = req.body;
-    
         const id= userId !== _id ? _id : userId;
-        let teams= []
-        
-        await User.findById(userId)
-        .populate('teams')
-        .exec((err, user) => {
-          if (err) {
-            // Handle error
-            return console.error(err);
-          }
-          
-          // Access the populated teams array
-          teams = user.teams;
+          const user = await User.findById(userId).populate('teams');
+          let teams = user.teams;
+          res.status(200).json(teams);
           console.log('Teams belonging to the user:', teams);
-        });
-
-  
-      res.status(200).json(teams);
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ status: false, message: error.message });
-    }
+          console.log(user);
+      } catch (error) {
+          console.error(error);
+          return res.status(400).json({ status: false, message: error.message });
+      }
   };
 
   export const updateUserProfile = async (req, res) => {
     try {
-      const { userId} = req.user 
-  
-      //const id= userId !== _id ? _id : userId;
+        let Id= ""
+        if(req.user) { 
+          let { userId } = req.user
+          Id=userId}
+        else { 
+          let { userId } = req.body.id
+          Id=userId}
+        console.log(Id);
 
-      const user = await User.findById(userId);
-      
+        const user = await User.findById(Id);
 
-      if (user) {
-        user.name = req.body.name || user.name;
-        user.title = req.body.title || user.title;
-        user.role = req.body.role || user.role;
-        if(!user.teams) user.teams = req.body.team
-        else user.teams = [...user.teams, req.body.team]
-  
-        const updatedUser = await user.save();
-  
-        user.password = undefined;
-  
-        res.status(201).json({
-          status: true,
-          message: "Profile Updated Successfully.",
-          user: updatedUser,
-        });
-      } else {
-        res.status(404).json({ status: false, message: "User not found" });
-      }
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.title = req.body.title || user.title;
+            user.role = req.body.role || user.role;
+            
+            // Check if user has teams property defined and not empty
+            if (!user.teams || user.teams.length === 0) {
+                user.teams = req.body.team;
+            } else {
+                // Append new team to existing teams
+                user.teams.push(req.body.team);
+            }
+
+            const updatedUser = await user.save();
+
+            user.password = undefined;
+
+            return res.status(201).json({
+                status: true,
+                message: "Profile Updated Successfully.",
+                user: updatedUser,
+            });
+        } else {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
     } catch (error) {
-      console.log(error);
-      return res.status(400).json({ status: false, message: error.message });
+        console.error(error); // Use console.error for logging errors
+        return res.status(400).json({ status: false, message: error.message });
     }
   };
+
   
   export const changeUserPassword = async (req, res) => {
     try {

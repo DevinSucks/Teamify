@@ -12,10 +12,11 @@ dotenv.config()
 
 dbConnection()
 
-const PORT = process.env.PORT || 3000
+let PORT = process.env.PORT || 3001
 
-const app = express()
+const app = [express(),express()]
 
+app.map((app)=>{
 app.use(express.json())
 app.use(express.urlencoded())
 
@@ -32,7 +33,7 @@ app.use("/api/user", Userroutes);
 app.use("/api/task", Taskroutes);
 
 
-app.listen(PORT,()=>{
-    console.log("Listening at port",PORT)
+app.listen(PORT++,()=>{
+    console.log("Listening at port",PORT-1)
 })
-
+})

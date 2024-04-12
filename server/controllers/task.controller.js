@@ -1,61 +1,79 @@
 import { query } from "express";
 import Task from "../models/task.model.js";
 import User from "../models/user.model.js";
+import mongoose from "mongoose";
+import { updateUserProfile } from "./user.controller.js";
+import { mailer } from "../utils/index.js";
 
 const priorities = ["high","medium","normal","low"]
 const coins = [100,75,50,25]
+
+
 export const createTask = async (req, res) => {
-    try {
+  try {
       const { userId } = req.user;
-  
+      
+      // Destructure req.body and provide default values
       let { title, team, stage, date, priority, assets, members } = req.body;
       let text = "New task has been assigned to you";
       if (team?.length > 1) {
-        text = text + ` and ${team?.length - 1} others.`;
+          text = text + ` and ${team?.length - 1} others.`;
       }
-  
+
       text =
-        text +
-        ` The task priority is set a ${priority} priority, so check and act accordingly. The task date is ${new Date(
-          date
-        ).toDateString()}. Thank you!!!`;
-  
+          text +
+          ` The task priority is set a ${priority} priority, so check and act accordingly. The task date is ${new Date(
+              date
+          ).toDateString()}. Thank you!!!`;
+
       const activity = {
-        type: "assigned",
-        activity: text,
-        by: userId,
+          type: "assigned",
+          activity: text,
+          by: userId,
       };
 
-      priority = priority?priority.toLowerCase():"normal"
-  
+      // Convert priority to lowercase if provided
+      priority = priority ? priority.toLowerCase() : "normal";
+
+      // Create the task
       const task = await Task.create({
-        title,
-        team,
-        stage: stage?stage.toLowerCase():"todo",
-        date,
-        priority: priority,
-        coinsAlloted: coins[priorities.indexOf(priority)],
-        assets,
-        activities: activity,
-        members
+          title,
+          team,
+          stage: stage ? stage.toLowerCase() : "todo",
+          date,
+          priority,
+          coinsAlloted: coins[priorities.indexOf(priority)],
+          assets,
+          activities: activity,
+          members
       });
-  
-    //   await Notice.create({
-    //     team,
-    //     text,
-    //     task: task._id,
-    //   });
-    //   create SMTP for task creation
-  
-      res
-        .status(200)
-        .json({ status: true, task, message: "Task created successfully." });
-    } catch (error) {
-      console.log(error);
+
+
+      // Update user profiles
+      await Promise.all(members.map(async (member) => {
+          try {
+              // Retrieve user profile
+              const user = await User.findById(member);
+              console.log(user);
+
+              // Update user profile data for the task
+              const updatedUser = await User.findByIdAndUpdate(member, {
+                  $addToSet: { tasks: task._id }
+              }, { new: true });
+
+              console.log("User updated:", updatedUser);
+              mailer(user.email,text)
+          } catch (error) {
+              console.error("Error updating user profile:", error);
+          }
+      }));
+
+      res.status(200).json({ status: true, task, message: "Task created successfully." });
+  } catch (error) {
+      console.error("Error creating task:", error);
       return res.status(400).json({ status: false, message: error.message });
-    }
-  };
-  
+  }
+};
 
   export const postTaskActivity = async (req, res) => {
     try {
@@ -84,8 +102,10 @@ export const createTask = async (req, res) => {
     }
   };
 
+
+  //this func is getTasks by stage
   export const getTasks = async (req, res) => {
-    console.log(req.params)
+
   
     try {
       const { stage } = req.query;
@@ -110,31 +130,51 @@ export const createTask = async (req, res) => {
   
   //dashobard statistics
 
-  export const getTask = async (req, res) => {
-    try {
-      const { id } = req.params;
 
-      if(stage) query.stage = stage
-  
-      const task = await Task.findById(id)
-        .populate({
-          path: "team",
-          select: "name title role email",
-        })
-        .populate({
-          path: "activities.by",
-          select: "name",
-        });
-  
-      res.status(200).json({
-        status: true,
-        task,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(400).json({ status: false, message: error.message });
-    }
+  export const getTaskByUser = async (req, res) => {
+    try {
+        const { userId} = req.user;
+        const { _id } = req.body;
+        const id= userId !== _id ? _id : userId;
+          const user = await User.findById(userId).populate('tasks');
+          let tasks = user.tasks;
+          res.status(200).json(tasks);
+          console.log('Tasks belonging to the user:', tasks);
+          console.log(user);
+      } catch (error) {
+          console.error(error);
+          return res.status(400).json({ status: false, message: error.message });
+      }
   };
+
+  //by id
+  export const getTask = async (req, res) => {
+    console.log(req.params);
+    try {
+        let { id } = req.params; // Declare id variable using let to allow reassignment
+        const objectId = new mongoose.Types.ObjectId(id); // Convert id to ObjectId
+
+        const task = await Task.findById(id)
+            .populate({
+                path: "team",
+                select: "name title role email", // Include only these fields from the 'team' document
+            })
+            .populate({
+                path: "activities.by",
+                select: "name", // Include only the 'name' field from the referenced document
+            });
+
+        res.status(200).json({
+            status: true,
+            task,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ status: false, message: error.message });
+    }
+}; //schema data type issue
+
+
 
   export const dashboardStatistics = async (req, res) => {
     try {
@@ -214,17 +254,17 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
       const { id } = req.params;
-      const { title, date, team, stage, priority, assets } = req.body;
+      let { title, date, team, stage, priority, assets, members } = req.body;
   
       const task = await Task.findById(id);
-  
+      members = [...task.members,members]
       task.title = title;
       task.date = date;
       task.priority = priority.toLowerCase();
       task.assets = assets;
       task.stage = stage.toLowerCase();
       task.team = team;
-  
+      task.members = members
       await task.save();
   
       res
@@ -236,6 +276,7 @@ export const updateTask = async (req, res) => {
     }
   };
 
+  
   export const deleteTask = async (req, res) => {
     try {
       const { id } = req.params;
