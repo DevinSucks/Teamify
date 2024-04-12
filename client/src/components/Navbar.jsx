@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
 
         <div>
-          <span className="text-2xl font-bold text-black">{time}</span>
+          <span className="text-3xl h-[40px] font-extralight text-black dark:text-red-600 ">{time}</span>
         </div>
       </div>
       <div>
